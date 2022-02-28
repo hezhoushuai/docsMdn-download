@@ -3,7 +3,7 @@ import promisify from "./promisify.js";
 import { readFile, readdir, stat, writeFile, appendFile } from "fs";
 import getLinks from "./getLinks.js";
 import fetch from 'node-fetch';
-import { createFile } from "./create.js";
+import { createFile, isExit } from "./create.js";
 
 const readdirPro = promisify(readdir);
 const readFilePro = promisify(readFile);
@@ -21,11 +21,14 @@ async function isDir(p) {
 }
 
 async function downloadFile(link) {
+  const filePath = path.join('./downloads', link.replace(/(^\w+:|^)\/\//, ''))
+
+  if(await isExit(filePath)) return true
   const resp = await fetch(link).catch(e => console.error(e))
   if(!resp) return false
   const body = await resp.text()
 
-  const filePath = path.join('./downloads', link.replace(/(^\w+:|^)\/\//, ''))
+  
 
   await createFile(filePath, body)
 }

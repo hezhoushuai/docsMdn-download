@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="110px" height="110px" viewBox="0 0 110 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="103.001585%" x2="100%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#60C1F5" offset="0%"></stop>
+            <stop stop-color="#5064ED" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-21" transform="translate(7.000000, 7.000000)">
+            <rect id="矩形备份-26" stroke="#000000" opacity="0" x="0" y="0" width="96" height="96"></rect>
+            <g id="编组-18" transform="translate(6.000000, 21.000000)" fill="url(#linearGradient-1)" fill-rule="nonzero">
+                <path d="M25.3,54.6 C40.3773737,54.6 52.6,42.3773737 52.6,27.3 C52.6,12.2226263 40.3773737,0 25.3,0 C10.2226263,0 -2,12.2226263 -2,27.3 C-2,42.3773737 10.2226263,54.6 25.3,54.6 Z M25.3,50.6 C12.4317653,50.6 2,40.1682347 2,27.3 C2,14.4317653 12.4317653,4 25.3,4 C38.1682347,4 48.6,14.4317653 48.6,27.3 C48.6,40.1682347 38.1682347,50.6 25.3,50.6 Z" id="椭圆形备份-26"></path>
+                <path d="M58.3,54.6 C73.3773737,54.6 85.6,42.3773737 85.6,27.3 C85.6,12.2226263 73.3773737,0 58.3,0 C43.2226263,0 31,12.2226263 31,27.3 C31,42.3773737 43.2226263,54.6 58.3,54.6 Z M58.3,50.6 C45.4317653,50.6 35,40.1682347 35,27.3 C35,14.4317653 45.4317653,4 58.3,4 C71.1682347,4 81.6,14.4317653 81.6,27.3 C81.6,40.1682347 71.1682347,50.6 58.3,50.6 Z" id="椭圆形备份-27"></path>
+            </g>
+        </g>
+    </g>
+</svg>
