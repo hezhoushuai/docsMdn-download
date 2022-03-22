@@ -30,9 +30,10 @@ export async function isExit(p) {
  */
 export async function createDir(p) {
   const dirs = p.split("/");
-  const { __dirname } = getDirname(import.meta.url);
+  // const { __dirname } = getDirname(import.meta.url);
 
-  let curpath = __dirname;
+  // let curpath = __dirname;
+  let curpath = '/';
   for (let it of dirs) {
     curpath = path.resolve(curpath, it);
 
@@ -47,7 +48,7 @@ export async function createDir(p) {
  * 创建文件
  */
 export async function createFile(p, content) {
-  const paths = p.split("/");
+  const paths = p.split(path.sep);
   const [filename] = paths.splice(paths.length - 1, 1);
   const dirpath = paths.join("/");
   await createDir(dirpath);

@@ -1,71 +1,50 @@
 import path from "path";
-import promisify from "./promisify.js";
-import { readFile, readdir, stat, writeFile, appendFile } from "fs";
-import getLinks from "./getLinks.js";
+import debug from "debug";
+import { readFilePro, writeFilePro, appendFilePro } from './modules/fsWrapper.js';
+import { createWriteStream } from 'fs';
+import getLinks from "./modules/getLinks.js";
 import fetch from 'node-fetch';
-import { createFile, isExit } from "./create.js";
+import { createFile, isExit } from "./modules/create.js";
+import recursionDirs from './modules/recursDirs.js'
 
-const readdirPro = promisify(readdir);
-const readFilePro = promisify(readFile);
-const writeFilePro = promisify(writeFile);
-const appendFilePro = promisify(appendFile);
-const statPro = promisify(stat);
+const debugOutput = debug('_h:main')
 
+const DOWNLOAD_DIR_PATH = path.resolve('./downloads')
 const URL_LOG_FILE_PATH = path.resolve("./logFile.txt");
-const EXINCLUDE_NAMES = [".git", "_h"];
 const DOWNLOAD_URL_REG = [/gw.alipayobjects.com/, /\.(jpg|png|svg|json|csv)$/]
 
-async function isDir(p) {
-  const statObj = await statPro(p);
-  return statObj.isDirectory();
-}
-
 async function downloadFile(link) {
-  const filePath = path.join('./downloads', link.replace(/(^\w+:|^)\/\//, ''))
+  const filePath = path.join(DOWNLOAD_DIR_PATH, link.replace(/(^\w+:|^)\/\//, ''))
 
   if(await isExit(filePath)) return true
-  const resp = await fetch(link).catch(e => console.error(e))
+  const resp = await fetch(link, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/octet-stream' },
+  }).catch(e => debugOutput(e.message))
+
   if(!resp) return false
-  const body = await resp.text()
-
   
+  await createFile(filePath, '')
+  const writeStream = createWriteStream(filePath)
 
-  await createFile(filePath, body)
-}
-
-/**
- * p必须是绝对路径
- */
-async function recursionDirs(p) {
-  const names = await readdirPro(p);
-
-  for (let name of names) {
-    if (EXINCLUDE_NAMES.includes(name)) continue;
-
-    const curpath = path.join(p, name);
-    const isdir = await isDir(curpath);
-
-    if (!isdir) {
-      const links = getLinks(await readFilePro(curpath, "utf8"))
-      for(let link of links) {
-        if (DOWNLOAD_URL_REG.some(reg => reg.test(link))){
-          if(link.endsWith('geo-data-v0.1.1') || link.endsWith('administrative-data')) continue
-          console.log(`[downloads]: 开始下载${link}`)
-           await downloadFile(link)
-           await appendFilePro(URL_LOG_FILE_PATH, link + ', ')
-        }
-      }
-    } else await recursionDirs(curpath);
-  }
-
-  return "done";
+  resp.body.pipe(writeStream)
 }
 
 (async function () {
   // warnning
   await writeFilePro(URL_LOG_FILE_PATH, "");
 
-  await recursionDirs(path.resolve("../"));
+  await recursionDirs(path.resolve("../"), async (curpath) => {
+    const links = getLinks(await readFilePro(curpath, "utf8"))
+      for(let link of links) {
+        if (DOWNLOAD_URL_REG.some(reg => reg.test(link))){
+          debugOutput(`[downloads]: 开始下载${link}`)
+           await downloadFile(link)
+           await appendFilePro(URL_LOG_FILE_PATH, link + ', ')
+        }
+      }
+  });
 
-  console.log("完成文件下载任务");
+  debugOutput("完成文件下载任务");
 })();
+
