@@ -3,7 +3,7 @@ import path from 'path';
 import debug from 'debug';
 
 const debugOutput = debug('_h:recursDirs')
-const EXINCLUDE_NAMES = [".git", "_h"];
+const EXINCLUDE_NAMES = ["docsMdn-download", ".git", "_h"];
 
 async function isDir(p) {
   const statObj = await statPro(p);

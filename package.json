@@ -17,5 +17,8 @@
     "debug": "^4.3.3",
     "express": "^4.17.3",
     "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.0"
   }
 }
